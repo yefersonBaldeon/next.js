@@ -10,35 +10,29 @@ const service = new ProductService()
 
 
 
+router.get('/', async (req, res) => {
 
-
-
-
-router.get('/', (req, res) => {
-
-    const products = service.find()
+    const products = await service.find()
 
     res.json(products)
 });
-
 
 
 
 router.get('/:id', (req, res) => {
 
     const { id } = req.params
-    const products = service.findOne(id)
+    const products =service.findOne(id)
     res.json(products)
 
 });
-
 
 
 router.post('/', (req, res) => {
 
     const body = req.body
 
-    const newProducto=service.create(body)
+    const newProducto = service.create(body)
 
 
     res.status(201).json(newProducto)
@@ -48,11 +42,25 @@ router.post('/', (req, res) => {
 
 router.patch('/:id', (req, res) => {
 
-    const { id } = req.params
-    const body = req.body
 
-    const changeProduct=service.update(id,body)
-    res.json(changeProduct)
+    try {
+
+
+        const { id } = req.params
+        const body = req.body
+
+        const changeProduct = service.update(id, body)
+        res.json(changeProduct)
+    }
+    
+    catch(error){
+        res.status(404).json({
+            message:error.message
+        })
+
+    }
+
+
 });
 
 
@@ -61,8 +69,8 @@ router.delete('/:id', (req, res) => {
 
     const { id } = req.params
 
-    const one=service.delete(id)
-    
+    const one = service.delete(id)
+
     res.json(one)
 
 });
@@ -70,4 +78,3 @@ router.delete('/:id', (req, res) => {
 
 
 module.exports = router;
-

@@ -9,9 +9,7 @@ class ProductService {
     }
 
 
-
-
-    generate() {
+    async generate() {
         const limit = 100;
         for (let index = 0; index < limit; index++) {
             this.products.push({
@@ -33,17 +31,29 @@ class ProductService {
         }
 
         this.products.push(newProducto)
-
         return (newProducto)
     }
 
     find() {
-        return this.products;
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+
+                resolve(this.products)
+
+            }, 3000)
+
+        })
+
     }
 
+
     findOne(id) {
-        return this.products.find(item => item.id === id);
+
+
+        return this.products.find(item => item.id === id)
+
     }
+
 
     update(id, changes) {
 
@@ -75,23 +85,15 @@ class ProductService {
         else {
 
             // this.products.pop(index)
-            this.products.splice(index,1)
-            return {id}
+            this.products.splice(index, 1)
+            return { id }
 
         }
-       
+
 
     }
 
 
 }
 
-
-
-
-
-
-
 module.exports = ProductService
-
-

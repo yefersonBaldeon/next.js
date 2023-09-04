@@ -2,26 +2,42 @@
 const express = require('express');
 const { faker } = require("@faker-js/faker");
 
-const routerApi=require("./routes/index")
+const routerApi = require("./routes/index")
+const cors = require("cors")
 
 // Crear una instancia de la aplicación Express
 const app = express();
-const port = 3000;
+
+const port = process.env.PORT || 3000;
 
 
 // Definir una ruta para la ruta raíz ("/") que responda a solicitudes GET
 
-
 app.use(express.json())
 
+const whitelist = ['http://localhost:8080', 'https://myapp.co'];
+const options = {
+    origin: (origin, callback) => {
+        if (whitelist.includes(origin) || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('no permitido'));
+        }
+    }
+}
+app.use(cors(options));
 
-routerApi(app);
+app.use(cors(options))
+
+
+
 
 app.get('/', (req, res) => {
     res.send('¡Hola, mundo desde Express!');
 });
 
 
+routerApi(app);
 
 
 
@@ -45,7 +61,6 @@ app.get('/users', (req, res) => {
         res.send("no hay parametros")
     }
 });
-
 
 
 app.listen(port, () => {
