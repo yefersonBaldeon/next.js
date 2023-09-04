@@ -32,7 +32,7 @@ app.use(cors(options))
 
 
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     res.send('¡Hola, mundo desde Express!');
 });
 
@@ -42,12 +42,12 @@ routerApi(app);
 
 
 
-app.get('/nueva-ruta', (req, res) => {
+app.get('/api/nueva-ruta', (req, res) => {
     res.send('¡Hola, soy una nueva ruta');
 });
 
 
-app.get('/users', (req, res) => {
+app.get('/api/users', (req, res) => {
 
     const { limit, offset } = req.query
     if (limit && offset) {
